@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.js"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Random Quote</title>
+
+    <script>
+    function refreshQuote() {
+        fetch('/quote') 
+        .then(response => response.json())
+        .then(data => {
+            if (data.quote && data.author) {
+                document.getElementById('quote').innerText = "Quote: " + data.quote;
+                document.getElementById('author').innerText = "Author: " + data.author;
+            } else {
+                document.getElementById('quote').innerText = "No quote available";
+                document.getElementById('author').innerText = "";
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching quote:', error);
+            document.getElementById('quote').innerText = "Error fetching quote.";
+            document.getElementById('author').innerText = "";
+        });
+    }
+    </script>
+</head>
+
+<body onload="refreshQuote()">
+    <h1>Random Quote Generator</h1>
+    <hr>
+    <br>
+    <p id="quote"></p>
+    <p id="author"></p>
+    <br>
+    <button class="ui huge green button" onclick="refreshQuote()">Refresh</button>
+</body>
+</html>
